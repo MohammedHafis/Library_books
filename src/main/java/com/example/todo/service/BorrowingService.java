@@ -28,9 +28,13 @@ public class BorrowingService {
         UserRecords user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("user not found"));
         Book book = bookRepository.findById(bookId).orElseThrow(()-> new RuntimeException("Book not found"));
 
-        boolean existingRecord = borrowingRecordRepository.existsByUserIdAndBookIdAndReturnDateIsNull(userId,bookId);
+        boolean existingRecord = borrowingRecordRepository.existsByUser_IdAndBook_IdAndReturnDateIsNull(userId,bookId);
         if (existingRecord){
             throw new RuntimeException("User has already borrowed the book and the book is not returned");
+        }
+        long activeLoans = borrowingRecordRepository.countByUser_IdAndReturnDateIsNull(userId);
+        if (activeLoans > 3){
+            throw new RuntimeException("User has reached the limit of borrowing 3 books");
         }
 
         if (book.getCopiesAvailable() <= 0 ){

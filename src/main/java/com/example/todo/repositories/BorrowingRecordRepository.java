@@ -5,5 +5,7 @@ import com.example.todo.models.BorrowingRecord;
 
 public interface BorrowingRecordRepository extends JpaRepository<BorrowingRecord,Long> {
 
-    boolean existsByUserIdAndBookIdAndReturnDateIsNull(Long userId, Long bookId);
+    boolean existsByUser_IdAndBook_IdAndReturnDateIsNull(Long userId, Long bookId);
+
+    long countByUser_IdAndReturnDateIsNull(Long userId);
 }
